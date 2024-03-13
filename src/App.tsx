@@ -3,12 +3,10 @@ import Header from "@/common/components/Header";
 import SearchCard from "@/features/search/components/SearchCard";
 import VehicleContent from "./features/vehicle/components/VehicleContent";
 import useIsMobile from "@/common/hooks/useIsMobile";
-import VehicleMobileCard from "./features/vehicle/components/VehicleMobileCard";
+import VehicleMobileContent from "./features/vehicle/components/VehicleMobileContent";
 
 function App() {
   const isMobile = useIsMobile();
-
-  console.log({ isMobile });
 
   return (
     <div>
@@ -16,14 +14,14 @@ function App() {
       <Container>
         {isMobile ? (
           <div>
-            <VehicleMobileCard />
+            <VehicleMobileContent />
           </div>
         ) : (
           <div className="grid grid-cols-4">
-            <div className="w-300 p-4 md:hidden lg:block">
+            <div className="w-300 p-4 sm:hidden lg:block">
               <SearchCard />
             </div>
-            <div className="p-4 lg:col-span-3 md:col-span-4">
+            <div className="p-4 lg:col-span-3 sm:col-span-4">
               <VehicleContent />
             </div>
           </div>

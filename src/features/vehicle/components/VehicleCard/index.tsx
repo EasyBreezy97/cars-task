@@ -54,7 +54,7 @@ const VehicleCard: FC<IVehicleCard> = () => {
           </p>
         </div>
       </div>
-      <div className="p-4 grid grid-cols-2">
+      <div className="lg:p-4 sm:pr-2 grid grid-cols-2">
         <span className="text-[#ff3b30] text-xs font-bold">
           განბაჟება 2,176 ₾
         </span>
