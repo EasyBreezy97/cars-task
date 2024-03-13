@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ReactComponent as Logo } from "@/assets/Logo.svg";
+import { ReactComponent as Logo } from "@/common/assets/Logo.svg";
 
 interface IHeader {}
 

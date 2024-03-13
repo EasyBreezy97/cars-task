@@ -30,7 +30,7 @@ const VehicleFilter: FC<IVehicleFilter> = () => {
       <p>176047 განცხადება</p>
       <div className="flex gap-2">
         <Select className="w-28" options={periodOptions} />
-        <Select options={sortOrderOptions} />
+        <Select className="w-56" options={sortOrderOptions} />
       </div>
     </div>
   );

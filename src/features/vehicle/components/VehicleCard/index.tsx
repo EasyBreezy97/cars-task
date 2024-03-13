@@ -1,13 +1,13 @@
 import Card from "@/common/components/Card";
 import { FC } from "react";
-import { ReactComponent as Gel } from "@/assets/Gel.svg";
-import { ReactComponent as Motor } from "@/assets/Motor.svg";
-import { ReactComponent as HandleBar } from "@/assets/Handlebar.svg";
-import { ReactComponent as Speed } from "@/assets/Speed.svg";
-import { ReactComponent as GearBox } from "@/assets/GearBox.svg";
-import { ReactComponent as Pen } from "@/assets/Pen.svg";
-import { ReactComponent as Compare } from "@/assets/Compare.svg";
-import { ReactComponent as Heart } from "@/assets/Heart.svg";
+import { ReactComponent as Gel } from "@/common/assets/Gel.svg";
+import { ReactComponent as Motor } from "@/common/assets/Motor.svg";
+import { ReactComponent as HandleBar } from "@/common/assets/Handlebar.svg";
+import { ReactComponent as Speed } from "@/common/assets/Speed.svg";
+import { ReactComponent as GearBox } from "@/common/assets/GearBox.svg";
+import { ReactComponent as Pen } from "@/common/assets/Pen.svg";
+import { ReactComponent as Compare } from "@/common/assets/Compare.svg";
+import { ReactComponent as Heart } from "@/common/assets/Heart.svg";
 
 interface IVehicleCard {}
 

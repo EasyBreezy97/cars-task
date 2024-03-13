@@ -1,8 +1,8 @@
 import Card from "@/common/components/Card";
 import { FC } from "react";
-import { ReactComponent as Gel } from "@/assets/Gel.svg";
-import { ReactComponent as Compare } from "@/assets/Compare.svg";
-import { ReactComponent as Note } from "@/assets/Note.svg";
+import { ReactComponent as Gel } from "@/common/assets/Gel.svg";
+import { ReactComponent as Compare } from "@/common/assets/Compare.svg";
+import { ReactComponent as Note } from "@/common/assets/Note.svg";
 
 interface IVehicleMobileCard {}
 
