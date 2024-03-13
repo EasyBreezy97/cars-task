@@ -1,5 +1,6 @@
 import { FC, useEffect, useState, useCallback } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import clsx from "clsx";
 import Card from "@/common/components/Card";
 import { ReactComponent as Car } from "@/common/assets/Car.svg";
 import { ReactComponent as Moto } from "@/common/assets/Moto.svg";
@@ -14,9 +15,10 @@ import {
   ISearchCardInputs,
   VehicleType,
 } from "../../utils/types";
-import clsx from "clsx";
 import useManufacturerList from "../../hooks/useManufacturerList";
 import { ISelectOptions } from "@/common/utils/types";
+import useManufacturerModelsList from "../../hooks/useManufacturerModels";
+import MessageText from "@/common/components/MessageText";
 
 const agreementTypeOptions = [
   { value: "0", label: "იყიდება" },
@@ -26,20 +28,30 @@ const agreementTypeOptions = [
 interface ISearchCard {}
 
 const SearchCard: FC<ISearchCard> = () => {
+  const [vehicleType, setVehicleType] = useState(VehicleType.CAR);
+  const [manufacturerOptions, setManufacturerOptions] = useState<
+    ISelectOptions[]
+  >([{ value: "all", label: "ყველა მწარმოებელი" }]);
+  const [vehicleModelOptions, setVehicleModelOptions] = useState<
+    ISelectOptions[]
+  >([{ value: "all", label: "ყველა მოდელი" }]);
+
   const {
     register,
     handleSubmit,
     getValues,
+    watch,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<ISearchCardInputs>();
 
   const { carManufacturers, motorBikeManufacturers, specManufacturers } =
     useManufacturerList();
 
-  const [vehicleType, setVehicleType] = useState(VehicleType.CAR);
-  const [manufacturerOptions, setManufacturerOptions] = useState<
-    ISelectOptions[]
-  >([]);
+  const selectedManufacturer = watch("manufacturer");
+
+  const { models } = useManufacturerModelsList(selectedManufacturer);
 
   const onSubmit: SubmitHandler<ISearchCardInputs> = (data) =>
     console.log(data);
@@ -62,12 +74,13 @@ const SearchCard: FC<ISearchCard> = () => {
         break;
     }
 
-    setManufacturerOptions(
-      options.map((man) => ({
+    setManufacturerOptions(() => [
+      { value: "all", label: "ყველა მწარმოებელი" },
+      ...options.map((man) => ({
         value: man.man_id,
         label: man.man_name,
       })),
-    );
+    ]);
   }, [
     vehicleType,
     carManufacturers,
@@ -76,9 +89,25 @@ const SearchCard: FC<ISearchCard> = () => {
     setManufacturerOptions,
   ]);
 
+  const handleModels = useCallback(() => {
+    if (models)
+      setVehicleModelOptions(() => [
+        { value: "all", label: "ყველა მოდელი" },
+        ...models.data.map((model) => ({
+          value: String(model.model_id),
+          label: model.model_name,
+        })),
+      ]);
+  }, [models, setVehicleModelOptions]);
+
   useEffect(() => {
     handleManufacturerList();
-  }, [handleManufacturerList]);
+    handleModels();
+  }, [handleManufacturerList, handleModels, reset]);
+
+  useEffect(() => {
+    setValue("model", "");
+  }, [selectedManufacturer, setValue, vehicleType]);
 
   const handleVehicleChange = (type: VehicleType) => {
     setVehicleType(type);
@@ -161,7 +190,7 @@ const SearchCard: FC<ISearchCard> = () => {
             <label className="inline-block mb-1 text-sm">მოდელი</label>
             <Select
               className="border border-slate-300"
-              options={agreementTypeOptions}
+              options={vehicleModelOptions}
               {...register("model")}
             />
           </div>
@@ -199,7 +228,9 @@ const SearchCard: FC<ISearchCard> = () => {
             />
           </div>
           {errors.priceFrom && (
-            <p>საწყისი ფასი ნაკლები ან ტოლი უნდა იყოს საბოლოო ფასზე</p>
+            <MessageText>
+              საწყისი ფასი ნაკლები ან ტოლი უნდა იყოს საბოლოო ფასზე
+            </MessageText>
           )}
           <div className="shadow pt-12 bg-white">
             <Button type="submit" className="bg-orange text-white w-full mb-5">

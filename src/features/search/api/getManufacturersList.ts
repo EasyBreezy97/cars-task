@@ -1,4 +1,4 @@
-import axiosInstance from "@/common/api/axiosInstance";
+import axiosInstance from "@/common/api/axiosInstance"
 
 export const getManufacturers = async () => {
   const { data } = await axiosInstance.get(
