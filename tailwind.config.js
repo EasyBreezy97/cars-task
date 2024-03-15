@@ -7,7 +7,7 @@ export default {
         orange: "#fd4100",
         white: "#fff",
         gold: "#FEC900",
-        darkGrey: "#272A37",
+        darkGrey: "#e5e7eb",
         lightGrey: "#454857",
         lighterGrey: "#8996ae",
         lightBlack: "#272A37",

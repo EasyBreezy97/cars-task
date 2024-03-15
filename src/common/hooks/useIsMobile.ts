@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const getIsMobile = () => window.innerWidth <= 660;
+const getIsMobile = () => window.innerWidth <= 800;
 
 export default function useIsMobile() {
   const [isMobile, setIsMobile] = useState(getIsMobile);

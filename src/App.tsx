@@ -12,15 +12,17 @@ function App() {
   return (
     <AppProvider>
       <div>
-        <Header />
+        <div className="pb-20">
+          <Header />
+        </div>
         <Container>
           {isMobile ? (
             <div>
               <VehicleMobileContent />
             </div>
           ) : (
-            <div className="grid grid-cols-4">
-              <div className="w-300 p-4 sm:hidden lg:block">
+            <div className="grid grid-cols-4 bg-darkGrey">
+              <div className="w-300 p-4 sm:hidden lg:block ">
                 <SearchCard />
               </div>
               <div className="p-4 lg:col-span-3 sm:col-span-4">

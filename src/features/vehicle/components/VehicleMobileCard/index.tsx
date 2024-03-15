@@ -51,7 +51,7 @@ const VehicleMobileCard: FC<IVehicleMobileCard> = ({ product }) => {
             <span className="font-bold text-xl">
               {formatNumber(product?.price_value)}
             </span>
-            <div className="mx-1 bg-[#e5e7eb]  p-2 rounded-full">
+            <div className="mx-1 bg-darkGrey p-2 rounded-full">
               <Gel />
             </div>
           </div>

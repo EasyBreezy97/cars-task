@@ -9,12 +9,13 @@ const VehicleContent: FC<IVehicleContent> = () => {
   const { products } = useGetProducts();
 
   return (
-    <section>
+    <section >
       <VehicleFilter />
-
-      {products?.map((product) => (
-        <VehicleCard key={product.car_id} product={product} />
-      ))}
+      <div>
+        {products?.map((product) => (
+          <VehicleCard key={product.car_id} product={product} />
+        ))}
+      </div>
     </section>
   );
 };

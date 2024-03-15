@@ -216,7 +216,7 @@ const SearchCard: FC<ISearchCard> = () => {
           </div>
           <div className="flex items-center justify-between my-6 border-t border-solid pt-3">
             <p className="text-sm">ფასი</p>
-            <div className="bg-darkGrey p-2  rounded-full">
+            <div className="bg-lightBlack p-2  rounded-full">
               <Gel fill="#fff" />
             </div>
           </div>
