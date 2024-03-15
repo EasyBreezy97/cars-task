@@ -2,14 +2,12 @@ import { FC } from "react";
 import VehicleCard from "../VehicleCard";
 import VehicleFilter from "../VehicleFilter";
 import useGetProducts from "@/features/search/hooks/useGetProducts";
-import { IProductItem } from "@/features/search/utils/types";
 
-interface IVehicleContent {
-  product: IProductItem;
-}
+interface IVehicleContent {}
 
 const VehicleContent: FC<IVehicleContent> = () => {
   const { products } = useGetProducts();
+
   return (
     <section>
       <VehicleFilter />

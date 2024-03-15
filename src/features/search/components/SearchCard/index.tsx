@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useCallback } from "react";
+import { FC, useEffect, useState, useCallback, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import clsx from "clsx";
 import Card from "@/common/components/Card";
@@ -19,6 +19,7 @@ import useGetCategories from "../../hooks/useGetCategories";
 import useVehicleCategoryOptions from "../../hooks/useVehicleCategoriesOption";
 import getManufacturersByType from "../../utils/getManufacturerByType";
 import useGetProducts from "../../hooks/useGetProducts";
+import { AppContext } from "@/common/context/AppContext";
 
 const agreementTypeOptions = [
   { value: "0", label: "იყიდება" },
@@ -28,6 +29,7 @@ const agreementTypeOptions = [
 interface ISearchCard {}
 
 const SearchCard: FC<ISearchCard> = () => {
+  const { setSearchTerms } = useContext(AppContext);
   const { carCategories, specCategories, motorBikeCategories } =
     useGetCategories();
 
@@ -54,11 +56,21 @@ const SearchCard: FC<ISearchCard> = () => {
   const selectedManufacturer = watch("manufacturer");
 
   const { models } = useManufacturerModelsList(selectedManufacturer);
+
   const { refetchProducts } = useGetProducts();
 
   const onSubmit: SubmitHandler<ISearchCardInputs> = (data) => {
-    console.log({ data });
-
+    setSearchTerms({
+      forRent: data.agreementType as "" | "0" | "1",
+      manufacturerId: data.manufacturer,
+      modelId: data.model,
+      categoryId: data.category,
+      priceFrom: data.priceFrom,
+      priceTo: data.priceTo,
+      period: "",
+      sortOrder: "1",
+      typeId: String(vehicleType) as "0" | "1" | "2",
+    });
     refetchProducts();
   };
 

@@ -9,7 +9,7 @@ const useVehicleCategoryOptions = (
   motorBikeCategories: ICategory[] | undefined,
 ): ISelectOptions[] => {
   const [options, setOptions] = useState<ISelectOptions[]>([
-    { value: "all", label: "ყველა კატეგორია" },
+    { value: "", label: "ყველა კატეგორია" },
   ]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const useVehicleCategoryOptions = (
 
     if (vehicleCategory) {
       const newOptions = [
-        { value: "all", label: "ყველა კატეგორია" },
+        { value: "", label: "ყველა კატეგორია" },
         ...vehicleCategory.map((category) => ({
           value: String(category.category_id),
           label: category.title,
