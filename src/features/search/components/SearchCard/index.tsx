@@ -29,7 +29,7 @@ const agreementTypeOptions = [
 interface ISearchCard {}
 
 const SearchCard: FC<ISearchCard> = () => {
-  const { setSearchTerms } = useContext(AppContext);
+  const { setSearchTerms, sortOrder, period } = useContext(AppContext);
   const { carCategories, specCategories, motorBikeCategories } =
     useGetCategories();
 
@@ -67,9 +67,9 @@ const SearchCard: FC<ISearchCard> = () => {
       categoryId: data.category,
       priceFrom: data.priceFrom,
       priceTo: data.priceTo,
-      period: "",
-      sortOrder: "1",
       typeId: String(vehicleType) as "0" | "1" | "2",
+      sortOrder,
+      period,
     });
     refetchProducts();
   };
@@ -134,7 +134,7 @@ const SearchCard: FC<ISearchCard> = () => {
         <span className="text-orange">იყიდება</span>
       </div>
       <Card className="max-w-80 rounded-tl-xl rounded-tr-xl bg-[#E2E5EB]">
-        <div className="flex w-full justify-between  cursor-pointer bg-[#F9F9FB] rounded-full h-12">
+        <div className="flex w-full justify-between  cursor-pointer bg-[#F9F9FB] rounded-tl-xl rounded-tr-xl h-12">
           <div
             className={clsx(
               "border-b border-solid w-1/3 pt-3",
@@ -177,7 +177,7 @@ const SearchCard: FC<ISearchCard> = () => {
                 handleVehicleChange(VehicleType.MOTO);
               }}
               fill={vehicleType === VehicleType.MOTO ? "#FD4100" : "#8C929B"}
-              className="m-auto bg-white"
+              className="m-auto"
             />
           </div>
         </div>
@@ -226,7 +226,7 @@ const SearchCard: FC<ISearchCard> = () => {
               className="w-1/2"
               {...register("priceFrom", {
                 validate: (value) => {
-                  if (value) {
+                  if (value && getValues("priceTo")) {
                     return parseFloat(value) < parseFloat(getValues("priceTo"));
                   }
                 },
@@ -244,7 +244,7 @@ const SearchCard: FC<ISearchCard> = () => {
               საწყისი ფასი ნაკლები ან ტოლი უნდა იყოს საბოლოო ფასზე
             </MessageText>
           )}
-          <div className="shadow pt-12 bg-white">
+          <div className="pt-12 bg-white">
             <Button type="submit" className="bg-orange text-white w-full mb-5">
               ძებნა
             </Button>

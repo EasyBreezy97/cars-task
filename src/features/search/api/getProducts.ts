@@ -8,7 +8,7 @@ export interface IProductsParams {
   priceFrom?: string;
   priceTo?: string;
   period?: string;
-  sortOrder?: "1" | "2" | "3" | "4" | "5" | "6";
+  sortOrder?: string;
   typeId: "0" | "1" | "2";
 }
 
