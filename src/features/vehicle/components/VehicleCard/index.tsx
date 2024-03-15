@@ -1,5 +1,5 @@
 import Card from "@/common/components/Card";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { ReactComponent as Gel } from "@/common/assets/Gel.svg";
 import { ReactComponent as Motor } from "@/common/assets/Motor.svg";
 import { ReactComponent as HandleBar } from "@/common/assets/Handlebar.svg";
@@ -8,15 +8,32 @@ import { ReactComponent as GearBox } from "@/common/assets/GearBox.svg";
 import { ReactComponent as Pen } from "@/common/assets/Pen.svg";
 import { ReactComponent as Compare } from "@/common/assets/Compare.svg";
 import { ReactComponent as Heart } from "@/common/assets/Heart.svg";
+import { IProductItem } from "@/features/search/utils/types";
+import { GEAR_TYPES } from "@/common/utils/constants";
+import useManufacturerList from "@/features/search/hooks/useManufacturerList";
+import {
+  formatNumber,
+  formatNumberWithSpace,
+} from "@/common/utils/numberFormatter";
 
-interface IVehicleCard {}
+interface IVehicleCard {
+  product: IProductItem;
+}
 
-const VehicleCard: FC<IVehicleCard> = () => {
+const VehicleCard: FC<IVehicleCard> = ({ product }) => {
+  const { manufacturers } = useManufacturerList(false);
+
+  const manufacturerName = useMemo(() => {
+    return manufacturers?.find(
+      (man) => Number(man.man_id) === Number(product.man_id),
+    )?.man_name;
+  }, [manufacturers, product.man_id]);
+
   return (
     <Card className="w-full p-4 grid grid-cols-4 rounded-2xl my-3">
       <div className="mt-2 flex">
         <img
-          src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={`https://static.my.ge/myauto/photos/${product.photo}/thumbs/${product.car_id}_1.jpg?v=${product.photo_ver}`}
           alt="car"
           className="rounded-lg object-cover"
         />
@@ -24,43 +41,58 @@ const VehicleCard: FC<IVehicleCard> = () => {
       <div className="px-4 py-2 col-span-2">
         <span>
           <h2 className="font-bold mb-4 text-sm">
-            Land Rover Range Rover Sport 2014 წ
+            {manufacturerName} {product?.car_model} {product?.prod_year} წ
           </h2>
         </span>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center">
             <Motor />
-            <p className="pl-1 text-xs font-bold">1.8 დატ ჰიბრიდი</p>
+            <p className="pl-1 text-xs font-bold">
+              {Number(product?.engine_volume / 1000)?.toFixed(1)} დატ ჰიბრიდი
+            </p>
           </div>
           <div className="flex items-center">
             <Speed />
-            <p className="pl-1 text-xs font-bold">200 000 კმ</p>
+            <p className="pl-1 text-xs font-bold">
+              {formatNumberWithSpace(product?.car_run_km)} კმ
+            </p>
           </div>
           <div className="flex items-center">
             <GearBox />
-            <p className="pl-1 text-xs font-bold">ავტომატიკა</p>
+            <p className="pl-1 text-xs font-bold">
+              {GEAR_TYPES[product?.gear_type_id]}
+            </p>
           </div>
           <div className="flex items-center">
             <HandleBar />
-            <p className="pl-1 text-xs font-bold">მარჯვენა</p>
+            <p className="pl-1 text-xs font-bold">
+              {product?.right_wheel ? "მარჯვენა" : "მარცხენა"}
+            </p>
           </div>
         </div>
         <div className="mt-5 flex items-center">
-          <span className="rounded-lg bg-gold text-white px-2 py-1 font-bold text-sm">
-            VIP
-          </span>
-          <p className="text-xs pl-1 text-[#8996ae] font-b">
-            589 ნახვა • 2 დღის წინ
+          {product.special_persons && (
+            <span className="rounded-lg bg-gold text-white px-2 py-1 font-bold text-sm">
+              VIP
+            </span>
+          )}
+
+          <p className="text-xs pl-1 text-[rgb(137,150,174)] font-b">
+            {product?.views} ნახვა • {product?.daily_views?.insert_Date}
           </p>
         </div>
       </div>
-      <div className="lg:p-4 sm:pr-2 grid grid-cols-2">
-        <span className="text-[#ff3b30] text-xs font-bold">
-          განბაჟება 2,176 ₾
+      <div className="lg:py-4 sm:pr-2 grid grid-cols-2">
+        <span
+          className={`${
+            product?.is_payd ? "text-[#26B753]" : "text-[#ff3b30]"
+          } text-xs font-bold`}
+        >
+          {product?.is_payd ? "✓ განბაჟებული" : "განბაჟება 2,176 ₾"}
         </span>
-        <span className="text-xs pl-1">რუსთავის ავტო</span>
+        <span className="text-xs pl-1">{product?.client_name}</span>
         <div className="col-[-2] text-xl font-bold self-center justify-self-center flex  items-center">
-          139,014
+          {formatNumber(product?.price_value)}
           <div className="bg-[#e5e7eb] p-2 rounded-full ml-1">
             <Gel />
           </div>

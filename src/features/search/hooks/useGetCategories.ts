@@ -39,6 +39,7 @@ function useGetCategories() {
   );
 
   return {
+    categoryData,
     carCategories,
     specCategories,
     motorBikeCategories,

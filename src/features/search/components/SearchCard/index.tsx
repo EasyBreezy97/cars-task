@@ -18,6 +18,7 @@ import MessageText from "@/common/components/MessageText";
 import useGetCategories from "../../hooks/useGetCategories";
 import useVehicleCategoryOptions from "../../hooks/useVehicleCategoriesOption";
 import getManufacturersByType from "../../utils/getManufacturerByType";
+import useGetProducts from "../../hooks/useGetProducts";
 
 const agreementTypeOptions = [
   { value: "0", label: "იყიდება" },
@@ -33,10 +34,10 @@ const SearchCard: FC<ISearchCard> = () => {
   const [vehicleType, setVehicleType] = useState(VehicleType.CAR);
   const [manufacturerOptions, setManufacturerOptions] = useState<
     ISelectOptions[]
-  >([{ value: "all", label: "ყველა მწარმოებელი" }]);
+  >([{ value: "", label: "ყველა მწარმოებელი" }]);
   const [vehicleModelOptions, setVehicleModelOptions] = useState<
     ISelectOptions[]
-  >([{ value: "all", label: "ყველა მოდელი" }]);
+  >([{ value: "", label: "ყველა მოდელი" }]);
 
   const {
     register,
@@ -53,9 +54,13 @@ const SearchCard: FC<ISearchCard> = () => {
   const selectedManufacturer = watch("manufacturer");
 
   const { models } = useManufacturerModelsList(selectedManufacturer);
+  const { refetchProducts } = useGetProducts();
 
-  const onSubmit: SubmitHandler<ISearchCardInputs> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<ISearchCardInputs> = (data) => {
+    console.log({ data });
+
+    refetchProducts();
+  };
 
   const handleManufacturerList = useCallback(() => {
     const options = getManufacturersByType(
@@ -64,8 +69,9 @@ const SearchCard: FC<ISearchCard> = () => {
       specManufacturers,
       motorBikeManufacturers,
     );
+
     setManufacturerOptions(() => [
-      { value: "all", label: "ყველა მწარმოებელი" },
+      { value: "", label: "ყველა მწარმოებელი" },
       ...options.map((man) => ({
         value: man.man_id,
         label: man.man_name,
@@ -82,7 +88,7 @@ const SearchCard: FC<ISearchCard> = () => {
   const handleModels = useCallback(() => {
     if (models)
       setVehicleModelOptions(() => [
-        { value: "all", label: "ყველა მოდელი" },
+        { value: "", label: "ყველა მოდელი" },
         ...models.data.map((model) => ({
           value: String(model.model_id),
           label: model.model_name,
