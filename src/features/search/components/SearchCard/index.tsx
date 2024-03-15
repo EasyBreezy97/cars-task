@@ -19,6 +19,8 @@ import useManufacturerList from "../../hooks/useManufacturerList";
 import { ISelectOptions } from "@/common/utils/types";
 import useManufacturerModelsList from "../../hooks/useManufacturerModels";
 import MessageText from "@/common/components/MessageText";
+import useGetCategories from "../../hooks/useGetCategories";
+import useVehicleCategoryOptions from "../../hooks/useVehicleCategoriesOption";
 
 const agreementTypeOptions = [
   { value: "0", label: "იყიდება" },
@@ -28,6 +30,9 @@ const agreementTypeOptions = [
 interface ISearchCard {}
 
 const SearchCard: FC<ISearchCard> = () => {
+  const { carCategories, specCategories, motorBikeCategories } =
+    useGetCategories();
+
   const [vehicleType, setVehicleType] = useState(VehicleType.CAR);
   const [manufacturerOptions, setManufacturerOptions] = useState<
     ISelectOptions[]
@@ -42,7 +47,6 @@ const SearchCard: FC<ISearchCard> = () => {
     getValues,
     watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<ISearchCardInputs>();
 
@@ -105,12 +109,42 @@ const SearchCard: FC<ISearchCard> = () => {
     handleModels();
   }, [handleManufacturerList, handleModels, reset]);
 
-  useEffect(() => {
-    setValue("model", "");
-  }, [selectedManufacturer, setValue, vehicleType]);
+  const vehicleCategoryOptions = useVehicleCategoryOptions(
+    vehicleType,
+    carCategories,
+    specCategories,
+    motorBikeCategories,
+  );
+
+  // useEffect(() => {
+  //   let vehicleCategory: ICategory[] | undefined = [];
+  //   switch (vehicleType) {
+  //     case VehicleType.CAR:
+  //       vehicleCategory = carCategories;
+  //       break;
+  //     case VehicleType.SPEC:
+  //       vehicleCategory = specCategories;
+  //       break;
+  //     case VehicleType.MOTO:
+  //       vehicleCategory = motorBikeCategories;
+  //       break;
+  //     default:
+  //       vehicleCategory = carCategories;
+  //   }
+  //   if (vehicleCategory) {
+  //     setVehicleCategoryOptions(() => [
+  //       { value: "all", label: "ყველა კატეგორია" },
+  //       ...vehicleCategory?.map((category) => ({
+  //         value: String(category.category_id),
+  //         label: category.title,
+  //       })),
+  //     ]);
+  //   }
+  // }, [carCategories, motorBikeCategories, specCategories, vehicleType]);
 
   const handleVehicleChange = (type: VehicleType) => {
     setVehicleType(type);
+    reset();
     handleManufacturerList();
   };
 
@@ -198,7 +232,7 @@ const SearchCard: FC<ISearchCard> = () => {
             <label className="inline-block mb-1 text-sm">კატეგორია</label>
             <Select
               className="border border-slate-300"
-              options={agreementTypeOptions}
+              options={vehicleCategoryOptions}
               {...register("category")}
             />
           </div>

@@ -21,7 +21,7 @@ export interface IManufacturer {
   is_moto: string;
 }
 
-interface DebugReport {
+interface IDebugReport {
   time: {
     total: string;
     queries: string;
@@ -64,7 +64,22 @@ interface IVersioning {
 }
 
 export interface IManufacturerModelsResponse {
-  debug_report: DebugReport;
+  debug_report: IDebugReport;
   data: IManufacturerModelData[];
+  versioning: IVersioning;
+}
+
+export interface ICategory {
+  category_id: number;
+  category_type: number;
+  has_icon: number;
+  title: string;
+  seo_title: string;
+  vehicle_types: number[];
+}
+
+export interface ICategoryResponse {
+  debug_report: IDebugReport;
+  data: ICategory[];
   versioning: IVersioning;
 }
