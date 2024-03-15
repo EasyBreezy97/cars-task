@@ -4,9 +4,9 @@ import VehicleFilter from "../VehicleFilter";
 import useGetProducts from "@/features/search/hooks/useGetProducts";
 import Spinner from "@/common/components/Spinner";
 
-interface IVehicleContent {}
+interface IVehicleDesktopContent {}
 
-const VehicleContent: FC<IVehicleContent> = () => {
+const VehicleDesktopContent: FC<IVehicleDesktopContent> = () => {
   const { products, isLoading } = useGetProducts();
 
   return (
@@ -22,4 +22,4 @@ const VehicleContent: FC<IVehicleContent> = () => {
   );
 };
 9;
-export default VehicleContent;
+export default VehicleDesktopContent;
