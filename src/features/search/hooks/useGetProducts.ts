@@ -6,12 +6,14 @@ import { useContext } from "react";
 import { AppContext } from "@/common/context/AppContext";
 
 function useGetProducts() {
-  const { searchTerms } = useContext(AppContext);
+  const { searchTerms, setStatementCount } = useContext(AppContext);
   const { data, error, isLoading, refetch } = useQuery<IProductsResponse>({
     queryKey: [QUERY_KEYS.Products, searchTerms],
     queryFn: () => getProducts(searchTerms),
     enabled: !!searchTerms,
   });
+
+  if (data?.data) setStatementCount(data?.data?.items.length);
 
   return {
     products: data?.data?.items,

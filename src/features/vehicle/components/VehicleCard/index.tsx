@@ -88,9 +88,11 @@ const VehicleCard: FC<IVehicleCard> = ({ product }) => {
             product?.is_payd ? "text-[#26B753]" : "text-[#ff3b30]"
           } text-xs font-bold`}
         >
-          {product?.is_payd ? "✓განბაჟებული" : "განბაჟება 2,176 ₾"}
+          {product?.is_payd ? "✓განბაჟებული" : "გასანბაჟებელი"}
         </span>
-        <span className="text-xs pl-1 justify-self-center">{product?.client_name}</span>
+        <span className="text-xs pl-1 justify-self-center overflow-hidden whitespace-nowrap max-w-[100px] md:max-w-[50px] lg:max-w-[40px] xl:max-w-[100px] truncate">
+          {product?.client_name}
+        </span>
         <div className="col-[-2] text-xl font-bold self-center justify-self-center flex  items-center">
           {formatNumber(product?.price_value)}
           <div className="bg-darkGrey p-2 rounded-full ml-1">

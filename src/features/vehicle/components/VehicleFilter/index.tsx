@@ -26,20 +26,20 @@ const sortOrderOptions = [
 interface IVehicleFilter {}
 
 const VehicleFilter: FC<IVehicleFilter> = () => {
-  const { setSortOrder, setPeriod } = useContext(AppContext);
+  const { setSortOrder, setPeriod, statementCount } = useContext(AppContext);
   return (
     <div className="flex justify-between mb-2">
-      <p>176047 განცხადება</p>
+      <p>{statementCount} განცხადება</p>
       <div className="flex gap-2">
         <Select
-          className="w-28"
+          className="w-44"
           onChange={(e) => {
             setPeriod(e.target.value);
           }}
           options={periodOptions}
         />
         <Select
-          className="w-56"
+          className="w-52"
           onChange={(e) => {
             setSortOrder(e.target.value);
           }}
