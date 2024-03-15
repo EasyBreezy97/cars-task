@@ -10,17 +10,14 @@ import { ReactComponent as ArrowLeft } from "@/common/assets/ArrowLeft.svg";
 import Input from "@/common/components/Input";
 import Select from "@/common/components/Select";
 import Button from "@/common/components/Button";
-import {
-  IManufacturer,
-  ISearchCardInputs,
-  VehicleType,
-} from "../../utils/types";
+import { ISearchCardInputs, VehicleType } from "../../utils/types";
 import useManufacturerList from "../../hooks/useManufacturerList";
 import { ISelectOptions } from "@/common/utils/types";
 import useManufacturerModelsList from "../../hooks/useManufacturerModels";
 import MessageText from "@/common/components/MessageText";
 import useGetCategories from "../../hooks/useGetCategories";
 import useVehicleCategoryOptions from "../../hooks/useVehicleCategoriesOption";
+import getManufacturersByType from "../../utils/getManufacturerByType";
 
 const agreementTypeOptions = [
   { value: "0", label: "იყიდება" },
@@ -61,23 +58,12 @@ const SearchCard: FC<ISearchCard> = () => {
     console.log(data);
 
   const handleManufacturerList = useCallback(() => {
-    let options: IManufacturer[] = [];
-
-    switch (vehicleType) {
-      case VehicleType.CAR:
-        options = carManufacturers;
-        break;
-      case VehicleType.SPEC:
-        options = specManufacturers;
-        break;
-      case VehicleType.MOTO:
-        options = motorBikeManufacturers;
-        break;
-      default:
-        options = [];
-        break;
-    }
-
+    const options = getManufacturersByType(
+      vehicleType,
+      carManufacturers,
+      specManufacturers,
+      motorBikeManufacturers,
+    );
     setManufacturerOptions(() => [
       { value: "all", label: "ყველა მწარმოებელი" },
       ...options.map((man) => ({
@@ -115,32 +101,6 @@ const SearchCard: FC<ISearchCard> = () => {
     specCategories,
     motorBikeCategories,
   );
-
-  // useEffect(() => {
-  //   let vehicleCategory: ICategory[] | undefined = [];
-  //   switch (vehicleType) {
-  //     case VehicleType.CAR:
-  //       vehicleCategory = carCategories;
-  //       break;
-  //     case VehicleType.SPEC:
-  //       vehicleCategory = specCategories;
-  //       break;
-  //     case VehicleType.MOTO:
-  //       vehicleCategory = motorBikeCategories;
-  //       break;
-  //     default:
-  //       vehicleCategory = carCategories;
-  //   }
-  //   if (vehicleCategory) {
-  //     setVehicleCategoryOptions(() => [
-  //       { value: "all", label: "ყველა კატეგორია" },
-  //       ...vehicleCategory?.map((category) => ({
-  //         value: String(category.category_id),
-  //         label: category.title,
-  //       })),
-  //     ]);
-  //   }
-  // }, [carCategories, motorBikeCategories, specCategories, vehicleType]);
 
   const handleVehicleChange = (type: VehicleType) => {
     setVehicleType(type);
