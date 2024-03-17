@@ -26,7 +26,7 @@ const sortOrderOptions = [
 interface IVehicleFilter {}
 
 const VehicleFilter: FC<IVehicleFilter> = () => {
-  const { setSortOrder, setPeriod, statementCount } = useContext(AppContext);
+  const { setSearchTerms, statementCount } = useContext(AppContext);
   return (
     <div className="flex justify-between mb-2">
       <p>{statementCount} განცხადება</p>
@@ -34,14 +34,20 @@ const VehicleFilter: FC<IVehicleFilter> = () => {
         <Select
           className="w-44"
           onChange={(e) => {
-            setPeriod(e.target.value);
+            setSearchTerms((prevState) => ({
+              ...prevState,
+              period: e.target.value,
+            }));
           }}
           options={periodOptions}
         />
         <Select
           className="w-52"
           onChange={(e) => {
-            setSortOrder(e.target.value);
+            setSearchTerms((prevState) => ({
+              ...prevState,
+              sortOrder: e.target.value,
+            }));
           }}
           options={sortOrderOptions}
         />

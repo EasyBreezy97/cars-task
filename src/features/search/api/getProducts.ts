@@ -25,7 +25,7 @@ export const getProducts = async ({
 }: Partial<IProductsParams> = {}) => {
   const { data } = await axiosInstance.get(
     `https://api2.myauto.ge/ka/products/?ForRent=${forRent}&Mans=${manufacturerId}${
-      manufacturerId && categoryId ? "." : ""
+      !!manufacturerId && !!categoryId ? "." : ""
     }${modelId}&Cats=${categoryId}&PriceFrom=${priceFrom}&PriceTo=${priceTo}&Period=${period}&SortOrder=${sortOrder}&TypeID=${typeId}`,
   );
   return data;
